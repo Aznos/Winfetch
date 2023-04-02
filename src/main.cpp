@@ -47,6 +47,22 @@ void cpuInfo() {
     unsigned int baseClock = CPUInfo[0] & 0xFFFF;
     unsigned int maxClock = CPUInfo[1] & 0xFFFF;
     std::cout << "  Clock Speed: " << (baseClock / 1000.0) << "GHz (Max: " << (maxClock / 1000.0) << "GHz)\n";
+
+    //Cores and threads
+    DWORD bufferSize = 0;
+    GetLogicalProcessorInformation(NULL, &bufferSize);
+    PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION)malloc(bufferSize);
+    GetLogicalProcessorInformation(buffer, &bufferSize);
+
+    int physicalCores = 0;
+    for (DWORD i = 0; i < bufferSize / sizeof(SYSTEM_LOGICAL_PROCESSOR_INFORMATION); i++) {
+        if (buffer[i].Relationship == RelationProcessorCore) {
+            physicalCores++;
+        }
+    }
+
+    std::cout << "  Cores: " << physicalCores << "\n";
+    std::cout << "  Threads: " << sysinfo.dwNumberOfProcessors << "\n";
 }
 
 void osInfo() {
