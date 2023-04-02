@@ -1,6 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include <tchar.h>
+#include <string>
 
 void cpuInfo() {
     SYSTEM_INFO sysinfo;
@@ -25,10 +26,21 @@ void cpuInfo() {
     }
 }
 
+void osInfo() {
+    std::cout << "OS Information:\n";
+    std::cout << "  Computer Name: ";
+    std::wstring pcName;
+    DWORD bufferSize = MAX_COMPUTERNAME_LENGTH + 1;
+    pcName.resize(bufferSize);
+    GetComputerNameExW(ComputerNamePhysicalDnsHostname, &pcName[0], &bufferSize);
+    std::wcout << pcName.c_str() << "\n";
+}
+
 int main() {
-    std::cout << "Winfetch v0.0.1:\n";
+    std::cout << "Winfetch v0.0.1\n";
 
     cpuInfo();
+    osInfo();
 
     return 0;
 }
