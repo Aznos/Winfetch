@@ -3,13 +3,17 @@
 #include <tchar.h>
 #include <string>
 #include <intrin.h>
+#include <iomanip>
 
 void cpuInfo() {
     SYSTEM_INFO sysinfo;
     GetSystemInfo(&sysinfo);
+    int CPUInfo[4] = {-1};
 
     std::cout << "CPU Information:\n";
-    std::cout << "  Processor Architecture: ";
+
+    //Architecture
+    std::cout << "  Architecture: ";
 
     switch(sysinfo.wProcessorArchitecture) {
         case PROCESSOR_ARCHITECTURE_AMD64:
@@ -26,8 +30,8 @@ void cpuInfo() {
             break;
     }
 
+    //CPU Name
     char cpuName[49];
-    int CPUInfo[4] = {-1};
     __cpuid(CPUInfo, 0x80000002);
     memcpy(cpuName, CPUInfo, sizeof(CPUInfo));
     __cpuid(CPUInfo, 0x80000003);
@@ -37,10 +41,18 @@ void cpuInfo() {
     cpuName[48] = '\0';
 
     std::cout << "  Name: " << cpuName << "\n";
+
+    //Clock speed
+    __cpuid(CPUInfo, 0x16);
+    unsigned int baseClock = CPUInfo[0] & 0xFFFF;
+    unsigned int maxClock = CPUInfo[1] & 0xFFFF;
+    std::cout << "  Clock Speed: " << (baseClock / 1000.0) << "GHz (Max: " << (maxClock / 1000.0) << "GHz)\n";
 }
 
 void osInfo() {
     std::cout << "OS Information:\n";
+
+    //Computer name
     std::cout << "  Computer Name: ";
     std::wstring pcName;
     DWORD bufferSize = MAX_COMPUTERNAME_LENGTH + 1;
