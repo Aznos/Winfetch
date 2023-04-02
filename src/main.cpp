@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <string>
+#include <intrin.h>
 
 void cpuInfo() {
     SYSTEM_INFO sysinfo;
@@ -24,6 +25,18 @@ void cpuInfo() {
             std::cout << "Unknown\n";
             break;
     }
+
+    char cpuName[49];
+    int CPUInfo[4] = {-1};
+    __cpuid(CPUInfo, 0x80000002);
+    memcpy(cpuName, CPUInfo, sizeof(CPUInfo));
+    __cpuid(CPUInfo, 0x80000003);
+    memcpy(cpuName + 16, CPUInfo, sizeof(CPUInfo));
+    __cpuid(CPUInfo, 0x80000004);
+    memcpy(cpuName + 32, CPUInfo, sizeof(CPUInfo));
+    cpuName[48] = '\0';
+
+    std::cout << "  Name: " << cpuName << "\n";
 }
 
 void osInfo() {
