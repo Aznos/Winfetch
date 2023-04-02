@@ -75,6 +75,19 @@ void osInfo() {
     pcName.resize(bufferSize);
     GetComputerNameExW(ComputerNamePhysicalDnsHostname, &pcName[0], &bufferSize);
     std::wcout << pcName.c_str() << "\n";
+
+    //OS name
+    HKEY hKey;
+    DWORD dwType, dwSize;
+    char szProductKey[255] = { 0 };
+    DWORD dwMajorVersion = 0, dwMinorVersion = 0;
+
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        dwSize = sizeof(szProductKey);
+        if (RegQueryValueEx(hKey, "ProductName", NULL, &dwType, (LPBYTE)szProductKey, &dwSize) == ERROR_SUCCESS) {
+            std::cout << "  Version: " << szProductKey << std::endl;
+        }
+    }
 }
 
 int main() {
