@@ -1,12 +1,7 @@
 #include <iostream>
 #include <windows.h>
-#include <tchar.h>
-#include <string>
 #include <intrin.h>
 #include <iomanip>
-#include <d3d9.h>
-
-#pragma comment(lib, "d3d9.lib")
 
 SYSTEM_INFO sysinfo;
 
