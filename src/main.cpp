@@ -4,9 +4,13 @@
 #include <string>
 #include <intrin.h>
 #include <iomanip>
+#include <d3d9.h>
+
+#pragma comment(lib, "d3d9.lib")
+
+SYSTEM_INFO sysinfo;
 
 void cpuInfo() {
-    SYSTEM_INFO sysinfo;
     GetSystemInfo(&sysinfo);
     int CPUInfo[4] = {-1};
 
@@ -100,9 +104,29 @@ void ramInfo() {
     DWORDLONG totalram = memoryStatus.ullTotalPhys;
     DWORDLONG usedram = memoryStatus.ullTotalPhys - memoryStatus.ullAvailPhys;
     double percentused = (double)usedram / (double)totalram * 100.0;
+    
     std::cout << "  Total RAM: " << totalram / (1024 * 1024) << "MB\n";
     std::cout << "  Used RAM: " << std::fixed << std::setprecision(2) << usedram / (1024 * 1024) << "MB (" << percentused << "%)\n";
     std::cout << "  Available RAM: " << memoryStatus.ullAvailPhys / (1024 * 1024) << "MB\n";
+}
+
+void gpuInfo() {
+    std::cout << "GPU Information:\n";
+
+    IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+    if(pD3D == nullptr) {
+        std::cout << "  Failed to create Direct3D object\n";
+        return;
+    }
+
+    D3DADAPTER_IDENTIFIER9 adapterIdentifier;
+    if(pD3D->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &adapterIdentifier) != D3D_OK) {
+        std::cout << "  Failed to get adapter info\n";
+        pD3D->Release();
+        return;
+    }
+
+    std::cout << "  Name: " << adapterIdentifier.Description << std::endl;
 }
 
 int main() {
@@ -110,6 +134,7 @@ int main() {
 
     cpuInfo();
     ramInfo();
+    gpuInfo();
     osInfo();
 
     return 0;
