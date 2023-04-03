@@ -111,6 +111,8 @@ void ramInfo() {
 }
 
 void gpuInfo() {
+    std::cout << "GPU Information:\n";
+
     DISPLAY_DEVICE displayDevice;
     displayDevice.cb = sizeof(DISPLAY_DEVICE);
     DWORD deviceIndex = 0;
