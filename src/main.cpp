@@ -111,22 +111,17 @@ void ramInfo() {
 }
 
 void gpuInfo() {
-    std::cout << "GPU Information:\n";
+    DISPLAY_DEVICE displayDevice;
+    displayDevice.cb = sizeof(DISPLAY_DEVICE);
+    DWORD deviceIndex = 0;
 
-    IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
-    if(pD3D == nullptr) {
-        std::cout << "  Failed to create Direct3D object\n";
-        return;
+    while(EnumDisplayDevices(nullptr, deviceIndex, &displayDevice, 0)) {
+        if(displayDevice.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) {
+            std::cout << "  Name: " << displayDevice.DeviceString << std::endl;
+            break;
+        }
+        deviceIndex++;
     }
-
-    D3DADAPTER_IDENTIFIER9 adapterIdentifier;
-    if(pD3D->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &adapterIdentifier) != D3D_OK) {
-        std::cout << "  Failed to get adapter info\n";
-        pD3D->Release();
-        return;
-    }
-
-    std::cout << "  Name: " << adapterIdentifier.Description << std::endl;
 }
 
 int main() {
