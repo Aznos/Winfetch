@@ -130,7 +130,7 @@ void gpuInfo() {
 }
 
 void diskInfo() {
-    std::cout << "Disk Information:\n";
+    
 
     DWORD drives = GetLogicalDrives();
     std::vector<char> buffer(MAX_PATH);
@@ -175,6 +175,24 @@ void diskInfo() {
     }
 }
 
+void biosInfo() {
+    std::cout << "BIOS Information:\n";
+
+    HKEY hKey;
+    DWORD dwType, dwSize;
+    char buffer[255] = {0};
+
+    if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\BIOS", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        dwSize = sizeof(buffer);
+        if(RegQueryValueEx(hKey, "BIOSVendor", NULL, &dwType, (LPBYTE)buffer, &dwSize) == ERROR_SUCCESS) {
+            std::cout << "  Vendor: " << buffer << std::endl;
+        }
+        if(RegQueryValueEx(hKey, "BIOSVersion", NULL, &dwType, (LPBYTE)buffer, &dwSize) == ERROR_SUCCESS) {
+            std::cout << "  Version: " << buffer << std::endl;
+        }
+    }
+}
+
 int main() {
     std::cout << "Winfetch v0.0.1\n";
 
@@ -185,6 +203,7 @@ int main() {
     gpuInfo();
     diskInfo();
     osInfo();
+    biosInfo();
 
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double, std::milli> elapsed = end - start;
