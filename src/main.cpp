@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <vector>
 #include <chrono>
+#include <d3d9.h>
 
 SYSTEM_INFO sysinfo;
 
@@ -104,16 +105,13 @@ void ramInfo() {
 void gpuInfo() {
     std::cout << "GPU Information:\n";
 
-    DISPLAY_DEVICE displayDevice;
-    displayDevice.cb = sizeof(DISPLAY_DEVICE);
-    DWORD deviceIndex = 0;
+    IDirect3D9* d3d = Direct3DCreate9(D3D_SDK_VERSION);
+    D3DADAPTER_IDENTIFIER9 adapter;
 
-    while(EnumDisplayDevices(nullptr, deviceIndex, &displayDevice, 0)) {
-        if(displayDevice.StateFlags & DISPLAY_DEVICE_PRIMARY_DEVICE) {
-            std::cout << "  Name: " << displayDevice.DeviceString << std::endl;
-            break;
-        }
-        deviceIndex++;
+    if(d3d->GetAdapterIdentifier(D3DADAPTER_DEFAULT, 0, &adapter) == D3D_OK) {
+        std::cout << "  Name: " << adapter.Description << std::endl;
+        std::cout << "  Vendor: " << adapter.VendorId << std::endl;
+        std::cout << "  Driver Version: " << adapter.DriverVersion.HighPart << "." << adapter.DriverVersion.LowPart << std::endl;
     }
 }
 
