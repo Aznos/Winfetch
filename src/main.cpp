@@ -3,6 +3,7 @@
 #include <intrin.h>
 #include <iomanip>
 #include <vector>
+#include <chrono>
 
 SYSTEM_INFO sysinfo;
 
@@ -12,7 +13,6 @@ void cpuInfo() {
 
     std::cout << "CPU Information:\n";
 
-    //Architecture
     std::cout << "  Architecture: ";
 
     switch(sysinfo.wProcessorArchitecture) {
@@ -30,7 +30,6 @@ void cpuInfo() {
             break;
     }
 
-    //CPU Name
     char cpuName[49];
     __cpuid(CPUInfo, 0x80000002);
     memcpy(cpuName, CPUInfo, sizeof(CPUInfo));
@@ -42,13 +41,11 @@ void cpuInfo() {
 
     std::cout << "  Name: " << cpuName << "\n";
 
-    //Clock speed
     __cpuid(CPUInfo, 0x16);
     unsigned int baseClock = CPUInfo[0] & 0xFFFF;
     unsigned int maxClock = CPUInfo[1] & 0xFFFF;
     std::cout << "  Clock Speed: " << (baseClock / 1000.0) << "GHz (Max: " << (maxClock / 1000.0) << "GHz)\n";
 
-    //Cores and threads
     DWORD bufferSize = 0;
     GetLogicalProcessorInformation(NULL, &bufferSize);
     PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION)malloc(bufferSize);
@@ -68,7 +65,6 @@ void cpuInfo() {
 void osInfo() {
     std::cout << "OS Information:\n";
 
-    //Computer name
     std::cout << "  Computer Name: ";
     std::wstring pcName;
     DWORD bufferSize = MAX_COMPUTERNAME_LENGTH + 1;
@@ -76,7 +72,6 @@ void osInfo() {
     GetComputerNameExW(ComputerNamePhysicalDnsHostname, &pcName[0], &bufferSize);
     std::wcout << pcName.c_str() << "\n";
 
-    //OS name
     HKEY hKey;
     DWORD dwType, dwSize;
     char szProductKey[255] = { 0 };
@@ -171,11 +166,17 @@ void diskInfo() {
 int main() {
     std::cout << "Winfetch v0.0.1\n";
 
+    auto start = std::chrono::steady_clock::now();
+
     cpuInfo();
     ramInfo();
     gpuInfo();
     diskInfo();
     osInfo();
+
+    auto end = std::chrono::steady_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end - start;
+    std::cout << std::endl << "Got information in " << elapsed.count() << "ms\n";
 
     return 0;
 }
