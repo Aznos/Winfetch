@@ -84,6 +84,20 @@ void osInfo() {
             std::cout << "  Version: " << szProductKey << std::endl;
         }
     }
+
+    ULONGLONG uptime = GetTickCount64();
+
+    int days = uptime / (24 * 60 * 60 * 1000);
+    int hours = (uptime % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000);
+    int mins = (uptime % (60 * 60 * 1000)) / (60 * 1000);
+    int secs = (uptime % (60 * 1000)) / 1000;
+
+    std::cout << "  Uptime: ";
+    if(days > 0) {
+        std::cout << days << " days, ";
+    }
+
+    std::cout << hours << " hours, " << mins << " minutes, " << secs << " seconds\n";
 }
 
 void ramInfo() {
