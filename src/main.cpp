@@ -130,7 +130,7 @@ void gpuInfo() {
 }
 
 void diskInfo() {
-    
+    std::cout << "Disk Information:\n";
 
     DWORD drives = GetLogicalDrives();
     std::vector<char> buffer(MAX_PATH);
