@@ -11,6 +11,8 @@ SYSTEM_INFO sysinfo;
 void cpuInfo() {
     GetSystemInfo(&sysinfo);
     int CPUInfo[4] = {-1};
+    HKEY hKey;
+    DWORD dwType, dwSize;
 
     std::cout << "CPU Information:\n";
 
@@ -42,10 +44,14 @@ void cpuInfo() {
 
     std::cout << "  Name: " << cpuName << "\n";
 
-    __cpuid(CPUInfo, 0x16);
-    unsigned int baseClock = CPUInfo[0] & 0xFFFF;
-    unsigned int maxClock = CPUInfo[1] & 0xFFFF;
-    std::cout << "  Clock Speed: " << (baseClock / 1000.0) << "GHz (Max: " << (maxClock / 1000.0) << "GHz)\n";
+    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        DWORD* dwMHzbuff = new DWORD;
+        if (RegQueryValueEx(hKey, "~MHz", NULL, &dwType, (LPBYTE)dwMHzbuff, &dwSize) == ERROR_SUCCESS) {
+            DWORD dwMHz = *dwMHzbuff;
+            std::cout << "  Clock Speed: " << std::fixed << std::setprecision(2) << (dwMHz / 1000.0) << "GHz\n";
+            delete dwMHzbuff;
+        }
+    }
 
     DWORD bufferSize = 0;
     GetLogicalProcessorInformation(NULL, &bufferSize);
