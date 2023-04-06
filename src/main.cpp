@@ -193,6 +193,24 @@ void biosInfo() {
     }
 }
 
+void mbInfo() {
+    std::cout << "Motherboard Information:\n";
+
+    HKEY hKey;
+    DWORD dwType, dwSize;
+    char buffer[255] = {0};
+
+    if(RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\BIOS", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
+        dwSize = sizeof(buffer);
+        if(RegQueryValueEx(hKey, "BaseBoardProduct", NULL, &dwType, (LPBYTE)buffer, &dwSize) == ERROR_SUCCESS) {
+            std::cout << "  Name: " << buffer << std::endl;
+        }
+        if(RegQueryValueEx(hKey, "BaseBoardManufacturer", NULL, &dwType, (LPBYTE)buffer, &dwSize) == ERROR_SUCCESS) {
+            std::cout << "  Manufacturer: " << buffer << std::endl;
+        }
+    }
+}
+
 int main() {
     std::cout << "Winfetch v0.0.1\n";
 
@@ -204,6 +222,7 @@ int main() {
     diskInfo();
     osInfo();
     biosInfo();
+    mbInfo();
 
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double, std::milli> elapsed = end - start;
