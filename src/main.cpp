@@ -5,6 +5,7 @@
 #include <vector>
 #include <chrono>
 #include <d3d9.h>
+#include <tlhelp32.h>
 
 SYSTEM_INFO sysinfo;
 
@@ -104,6 +105,21 @@ void osInfo() {
     }
 
     std::cout << hours << " hours, " << mins << " minutes, " << secs << " seconds\n";
+
+    PROCESSENTRY32 entry;
+    entry.dwSize = sizeof(PROCESSENTRY32);
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    int count = 0;
+
+    if(Process32First(snapshot, &entry)) {
+        do {
+            count++;
+        } while(Process32Next(snapshot, &entry));
+    }
+
+    CloseHandle(snapshot);
+
+    std::cout << "  Processes running: " << count << std::endl;
 }
 
 void ramInfo() {
