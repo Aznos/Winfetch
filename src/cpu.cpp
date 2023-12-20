@@ -77,15 +77,6 @@ void cpuCompactInfo() {
     memcpy(cpuName + 32, CPUInfo, sizeof(CPUInfo));
     cpuName[48] = '\0';
 
-    DWORD dwMHz = 0;
-    if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey) == ERROR_SUCCESS) {
-        DWORD* dwMHzbuff = new DWORD;
-        if (RegQueryValueEx(hKey, "~MHz", NULL, &dwType, (LPBYTE)dwMHzbuff, &dwSize) == ERROR_SUCCESS) {
-            dwMHz = *dwMHzbuff;
-            delete dwMHzbuff;
-        }
-    }
-
     DWORD bufferSize = 0;
     GetLogicalProcessorInformation(NULL, &bufferSize);
     PSYSTEM_LOGICAL_PROCESSOR_INFORMATION buffer = (PSYSTEM_LOGICAL_PROCESSOR_INFORMATION)malloc(bufferSize);
