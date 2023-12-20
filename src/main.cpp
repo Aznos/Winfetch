@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
             auto start = std::chrono::steady_clock::now();
 
             cpuCompactInfo();
-            ramInfo();
+            ramCompactInfo();
             gpuInfo();
             diskInfo();
 
