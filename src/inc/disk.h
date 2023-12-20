@@ -4,5 +4,6 @@
 #include "main.h"
 
 void diskInfo();
+void diskCompactInfo();
 
 #endif

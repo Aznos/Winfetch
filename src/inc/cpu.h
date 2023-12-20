@@ -4,5 +4,6 @@
 #include "main.h"
 
 void cpuInfo();
+void cpuCompactInfo();
 
 #endif

@@ -4,5 +4,6 @@
 #include "main.h"
 
 void ramInfo();
+void ramCompactInfo();
 
 #endif

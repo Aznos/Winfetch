@@ -4,5 +4,6 @@
 #include "main.h"
 
 void gpuInfo();
+void gpuCompactInfo();
 
 #endif
