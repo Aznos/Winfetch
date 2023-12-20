@@ -26,15 +26,10 @@ int main(int argc, char** argv) {
         } else if(strcmp(argv[1], "--compact") == 0) {
             auto start = std::chrono::steady_clock::now();
 
-            cpuInfo();
-            ramInfo();
-            gpuInfo();
-            diskInfo();
-            osInfo();
-            biosInfo();
-            mbInfo();
-            netInfo();
-            displayInfo();
+            cpuCompactInfo();
+            ramCompactInfo();
+            gpuCompactInfo();
+            diskCompactInfo();
 
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double, std::milli> elapsed = end - start;
