@@ -45,3 +45,22 @@ void diskInfo() {
         drives >>= 1;
     }
 }
+
+void diskCompactInfo() {
+    for(char letter = 'A'; letter <= 'Z'; letter++) {
+        std::string root = std::string(1, letter);
+        root += ":\\";
+
+        UINT type = GetDriveType(root.c_str());
+        if(type == DRIVE_FIXED || type == DRIVE_REMOVABLE || type == DRIVE_REMOTE) {
+            ULARGE_INTEGER freeSpace, totalSpace, totalFreeSpace;
+            if(GetDiskFreeSpaceEx(root.c_str(), &freeSpace, &totalSpace, &totalFreeSpace)) {
+                double totalSpaceGB = (double)totalSpace.QuadPart / (1024 * 1024 * 1024);
+                double freeSpaceGB = (double)freeSpace.QuadPart / (1024 * 1024 * 1024);
+                double percentFree = (double)freeSpace.QuadPart / (double)totalSpace.QuadPart * 100.0;
+
+                std::cout << "Drive " << letter << ": " << std::fixed << std::setprecision(2) << totalSpaceGB << "GB Total, " << freeSpaceGB << "GB Free (" << percentFree << "%)\n";
+            }
+        }
+    }
+}

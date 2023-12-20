@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
             cpuCompactInfo();
             ramCompactInfo();
             gpuCompactInfo();
-            diskInfo();
+            diskCompactInfo();
 
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double, std::milli> elapsed = end - start;
