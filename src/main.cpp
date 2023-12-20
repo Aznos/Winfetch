@@ -27,9 +27,9 @@ int main(int argc, char** argv) {
             auto start = std::chrono::steady_clock::now();
 
             cpuCompactInfo();
-            ramCompactInfo();
-            gpuCompactInfo();
-            diskCompactInfo();
+            ramInfo();
+            gpuInfo();
+            diskInfo();
 
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration<double, std::milli> elapsed = end - start;
