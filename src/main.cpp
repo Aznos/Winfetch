@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
 
             cpuCompactInfo();
             ramCompactInfo();
-            gpuInfo();
+            gpuCompactInfo();
             diskInfo();
 
             auto end = std::chrono::steady_clock::now();
