@@ -98,5 +98,5 @@ void cpuCompactInfo() {
         }
     }
 
-    std::cout << "CPU: " << cpuName << " @ " << std::fixed << std::setprecision(2) << (dwMHz / 1000.0) << "GHz, " << physicalCores << "c/" << sysinfo.dwNumberOfProcessors << "t\n";
+    std::cout << "CPU: " << cpuName << physicalCores << "c/" << sysinfo.dwNumberOfProcessors << "t\n";
 }
