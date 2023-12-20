@@ -89,5 +89,5 @@ void cpuCompactInfo() {
         }
     }
 
-    std::cout << "CPU: " << cpuName << physicalCores << "c/" << sysinfo.dwNumberOfProcessors << "t\n";
+    std::cout << "CPU: " << cpuName << physicalCores << " c/" << sysinfo.dwNumberOfProcessors << "t\n";
 }
