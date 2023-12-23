@@ -59,7 +59,9 @@ void cpuInfo() {
     }
 
     std::cout << "  Cores: " << physicalCores << "\n";
-    std::cout << "  Threads: " << sysinfo.dwNumberOfProcessors << "\n"; 
+    std::cout << "  Threads: " << sysinfo.dwNumberOfProcessors << "\n";
+
+    std::cout << "  Usage: " << getCPUUsage() << "%\n";
 }
 
 void cpuCompactInfo() {
@@ -89,5 +91,24 @@ void cpuCompactInfo() {
         }
     }
 
-    std::cout << "CPU: " << cpuName << " " << physicalCores << "c/" << sysinfo.dwNumberOfProcessors << "t\n";
+    std::cout << "CPU: " << cpuName << " " << physicalCores << "c/" << sysinfo.dwNumberOfProcessors << "t (" << std::fixed << std::setprecision(2) << getCPUUsage() << "%)\n";
+}
+
+double getCPUUsage() {
+    static PDH_HQUERY cpuQuery;
+    PDH_HCOUNTER cpuTotal;
+    static bool firstCall = true;
+
+    if(firstCall) {
+        PdhOpenQuery(NULL, 0, &cpuQuery);
+        PdhAddEnglishCounter(cpuQuery, "\\Processor(_Total)\\% Processor Time", 0, &cpuTotal);
+        PdhCollectQueryData(cpuQuery);
+        Sleep(100);
+        firstCall = false;
+    }
+
+    PDH_FMT_COUNTERVALUE counterVal;
+    PdhCollectQueryData(cpuQuery);
+    PdhGetFormattedCounterValue(cpuTotal, PDH_FMT_DOUBLE, NULL, &counterVal);
+    return counterVal.doubleValue;
 }

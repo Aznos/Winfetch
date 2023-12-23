@@ -1,6 +1,6 @@
 TARGET = bin/winfetch.exe
 SRCS = $(wildcard src/*.cpp)
-LDLIBS = -ld3d9 -liphlpapi -ldxgi
+LDLIBS = -ld3d9 -liphlpapi -ldxgi -lpdh
 
 all: $(TARGET)
 	$(TARGET)
