@@ -1,38 +1,35 @@
-# About
-Winfetch is a lightweight and easy-to-use command-line program for Windows that retrieves system information, similar to neofetch for Linux, with Winfetch, you can quickly obtain and view hardware and software details about your system, including CPU, RAM, GPU, operating system, and more
+# Winfetch
 
-# Getting Started
+Winfetch is a command-line utility for Windows that provides detailed system information. It's a lightweight and user-friendly tool, similar to neofetch for Linux. With Winfetch, you can easily access and display information about your hardware and software, including CPU, RAM, GPU, operating system, and more.
 
-To get started with Winfetch, simply download the executable file from the releases tab <a href="https://github.com/Pigiotyreal/Winfetch/releases">here</a> or compile it yourself, once downloaded, open a command prompt or PowerShell window in the same directory as the executable file and enter the following command:
+## Installation
 
-```
+To install Winfetch, download the executable file from the [releases tab](https://github.com/Pigiotyreal/Winfetch/releases) or compile the source code yourself. After downloading, open a command prompt or PowerShell window in the directory containing the executable file.
+
+To run the program and display system information, use the following command:
+
+```shell
 winfetch
 ```
 
-This will run the program and display system information in a formatted output
+## Features
+Winfetch offers the following features:
 
-# Features
+- Retrieves and displays detailed information about your hardware and software, including CPU, RAM, GPU, operating system, and more.
+- Provides an easy-to-use command-line interface. Simply run the program from a command prompt or PowerShell window.
 
-Here are some of the features that Winfetch offers:
 
-<ul>
-<li>Retrieves and displays detailed information about your hardware and software, including CPU, RAM, GPU, operating system, and more</li>
-<li>Easy-to-use command-line interface: simply run the program from a command prompt or PowerShell window</li>
-</Ul>
+## Command-Line Arguments
+Winfetch supports the following command-line arguments:
 
-# Arguments
-
-Winfetch supports the following arguments:
 ```
 --help: Displays help information
 --version: Displays version information
 --compact: Displays a compact version of the output
 ```
 
-# Contributing
+## Contributing
+We welcome contributions from the community. If you're unsure how to make a pull request, you can find a guide [here](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
 
-We welcome contributions from the community, if you don't know how to make a pull request, look <a href="https://docs.github.com/en/get-started/quickstart/contributing-to-projects">here</a>
-
-# License
-
-Winfetch is licensed under the MIT license. Please see the [LICENSE](./LICENSE) file for more information
+## License
+Winfetch is licensed under the MIT license. For more information, please see the [LICENSE](License) file.
