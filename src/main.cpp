@@ -8,9 +8,10 @@
 #include "inc/mb.h"
 #include "inc/network.h"
 #include "inc/display.h"
+#include "inc/ascii.h"
 
 int main(int argc, char** argv) {
-    std::string version = "Winfetch v0.0.3\n";
+    std::string version = "Winfetch v0.1\n";
 
     if(argc > 1) {
         if(strcmp(argv[1], "--help") == 0) {
@@ -26,6 +27,8 @@ int main(int argc, char** argv) {
         } else if(strcmp(argv[1], "--compact") == 0) {
             auto start = std::chrono::steady_clock::now();
 
+            asciiArt();
+            std::cout << std::endl;
             cpuCompactInfo();
             ramCompactInfo();
             gpuCompactInfo();
@@ -45,6 +48,8 @@ int main(int argc, char** argv) {
 
     auto start = std::chrono::steady_clock::now();
 
+    asciiArt();
+    std::cout << std::endl;
     cpuInfo();
     ramInfo();
     gpuInfo();
